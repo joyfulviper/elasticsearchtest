@@ -5,6 +5,7 @@ import com.example.elasticsearch.user.domain.UserRepository;
 import com.example.elasticsearch.user.domain.search.UserSearchRepository;
 import java.util.List;
 import java.util.stream.Collectors;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
@@ -34,5 +35,19 @@ public class UserService {
             .stream()
             .map(UserResponseDto::from)
             .collect(Collectors.toList());
+    }
+
+    public List<UserResponseDto> searchByName2(String name) {
+        return userSearchRepository.findByBasicProfile_NameContains(name)
+                .stream()
+                .map(UserResponseDto::from)
+                .collect(Collectors.toList());
+    }
+
+    public List<UserResponseDto> searchByName3(String description, Pageable pageable) {
+        return userSearchRepository.findAllByBasicProfile_DescriptionContains(description, pageable)
+                .stream()
+                .map(UserResponseDto::from)
+                .collect(Collectors.toList());
     }
 }

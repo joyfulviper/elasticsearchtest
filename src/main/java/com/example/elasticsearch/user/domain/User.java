@@ -25,7 +25,7 @@ public class User {
         this(null, new BasicProfile(name, description));
     }
 
-    @PersistenceConstructor
+    //@PersistenceConstructor
     public User(Long id, BasicProfile basicProfile) {
         this.id = id;
         this.basicProfile = basicProfile;

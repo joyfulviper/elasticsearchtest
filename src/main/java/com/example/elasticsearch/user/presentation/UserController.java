@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -40,6 +42,24 @@ public class UserController {
             .stream()
             .map(UserResponse::from)
             .collect(Collectors.toList());
+        return ResponseEntity.ok(userResponses);
+    }
+
+    @GetMapping("/users2/{name}")
+    public ResponseEntity<List<UserResponse>> search2(@PathVariable String name) {
+        List<UserResponse> userResponses = userService.searchByName2(name)
+                .stream()
+                .map(UserResponse::from)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(userResponses);
+    }
+
+    @GetMapping("/users3/{description}")
+    public ResponseEntity<List<UserResponse>> search3(@PathVariable String description, @PageableDefault(size=5, sort="id", direction = Sort.Direction.DESC) Pageable pageable) {
+        List<UserResponse> userResponses = userService.searchByName3(description, pageable)
+                .stream()
+                .map(UserResponse::from)
+                .collect(Collectors.toList());
         return ResponseEntity.ok(userResponses);
     }
 }
